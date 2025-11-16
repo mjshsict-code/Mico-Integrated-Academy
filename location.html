@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location - Mico Integrated Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body {
+            margin:0; padding:0; height:100vh; overflow:hidden;
+            font-family:'Inter',sans-serif;
+            color:#fff;
+        }
+
+        /* Background */
+        body {
+            background:url('bg.jpg') center/cover no-repeat fixed;
+        }
+
+        /* Header - Light Professional */
+        header{
+            background:#f8f9fa;
+            color:#00A676;
+            padding:0.6rem 1.2rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            z-index:1000;
+            box-shadow:0 2px 8px rgba(0,0,0,.07);
+            height:58px;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:0.8rem;
+        }
+        .logo-icon img{width:46px;height:46px;border-radius:5px;}
+        .logo h1{font-size:0.98rem;font-weight:700;color:#00A676;}
+        .logo p{font-size:0.68rem;font-weight:300;color:#00897B;}
+        nav ul{display:flex;list-style:none;gap:1.1rem;}
+        nav a{color:#00A676;text-decoration:none;font-weight:500;font-size:0.88rem;transition:opacity .3s;}
+        nav a:hover{opacity:.7;}
+
+        /* Main Content - EVEN SPACING */
+        .main-content {
+            height:calc(100vh - 58px - 50px);
+            overflow-y:auto;
+            padding:1rem;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between; /* ← EVEN DISTRIBUTION */
+            align-items:center;
+            gap:1rem;
+        }
+
+        /* Compact Hero */
+        .location-hero{
+            text-align:center;
+            flex-shrink:0;
+            max-width:900px;
+            width:100%;
+        }
+        .location-hero h1{
+            font-size:1.9rem;font-weight:800;margin-bottom:0.3rem;
+            text-shadow:0 2px 5px rgba(0,0,0,.4);
+        }
+        .location-hero p{
+            font-size:0.92rem;max-width:700px;margin:0 auto;
+            text-shadow:0 1px 4px rgba(0,0,0,.4);
+        }
+
+        /* Location Grid */
+        .location-content{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:1rem;
+            width:100%;
+            max-width:1000px;
+        }
+        .info-card{
+            background:rgba(255,255,255,0.92);
+            border-radius:12px;
+            padding:1.2rem;
+            box-shadow:0 3px 12px rgba(0,0,0,.15);
+            border:1px solid rgba(224,242,241,.9);
+        }
+        .location-card{background:rgba(240,253,250,0.92);}
+        .directions-card{background:#00A676;color:#fff;}
+        .location-header{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.7rem;}
+        .location-icon{width:38px;height:38px;background:#00A676;border-radius:7px;
+            display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;}
+        .location-title{font-size:1.15rem;font-weight:700;color:#00A676;}
+        .directions-title{font-size:1.15rem;font-weight:700;margin-bottom:0.7rem;color:#fff;}
+        .address{font-size:0.88rem;color:#444;margin-bottom:0.25rem;}
+        .directions-list{list-style:none;}
+        .directions-list li{padding:0.25rem 0;display:flex;gap:0.35rem;align-items:center;}
+        .directions-list li::before{content:'✓';color:#fff;font-weight:bold;}
+
+        /* Map Section - 100px × 100px */
+        .map-section{
+            width:100%;max-width:1000px;
+            background:rgba(240,253,250,0.92);border-radius:12px;
+            padding:1rem;text-align:center;border:1px solid rgba(224,242,241,.9);
+            flex-shrink:0;
+        }
+        .map-placeholder{
+            width:100px;height:100px;background:#e0f2f1;border-radius:8px;
+            overflow:hidden;position:relative;cursor:pointer;display:inline-block;
+            margin:0 auto;
+        }
+        .map-placeholder img{
+            width:100%;height:100%;object-fit:contain;
+        }
+        .map-placeholder::after{
+            content:'Tap to Open';
+            position:absolute;bottom:4px;left:50%;transform:translateX(-50%);
+            background:rgba(0,166,118,.9);color:#fff;padding:0.3rem 0.7rem;
+            border-radius:50px;font-size:0.75rem;opacity:0;transition:opacity .25s;
+        }
+        .map-placeholder:hover::after{opacity:1;}
+
+        /* BIGGER BUTTON */
+        .btn-map{
+            margin-top:1rem;
+            padding:0.8rem 1.8rem; /* ← INCREASED */
+            background:#00A676;color:#fff;
+            border:none;border-radius:8px;
+            font-size:1rem; /* ← BIGGER TEXT */
+            font-weight:600;
+            cursor:pointer;text-decoration:none;
+            display:inline-block;
+            transition:transform .25s,box-shadow .25s;
+        }
+        .btn-map:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,166,118,.4);}
+
+        /* Help Text */
+        .help-text{
+            background:rgba(255,255,255,0.92);border-radius:12px;
+            padding:0.9rem;text-align:center;font-style:italic;color:#444;
+            border:1px solid rgba(224,242,241,.9);max-width:800px;
+            font-size:0.85rem;
+            flex-shrink:0;
+        }
+
+        /* Floating Buttons - NO BACKGROUND */
+        .float-container {
+            position:fixed;
+            bottom:8px;
+            right:8px;
+            display:flex;
+            gap:12px;
+            z-index:1000;
+        }
+        .float-btn{
+            width:48px;height:48px;
+            border-radius:50%;
+            box-shadow:0 3px 8px rgba(0,0,0,.35);
+            display:flex;align-items:center;justify-content:center;
+            background:transparent !important;
+            transition:transform .25s;
+        }
+        .float-btn:hover{transform:scale(1.2);}
+        .float-btn img{width:30px;height:30px;object-fit:contain;}
+
+        @media (max-width:768px){
+            .float-container{flex-direction:column;gap:10px;right:8px;bottom:8px;}
+            .float-btn{width:44px;height:44px;}
+            .float-btn img{width:28px;height:28px;}
+            .location-content{grid-template-columns:1fr;}
+            .map-placeholder{width:90px;height:90px;}
+            .btn-map{padding:0.7rem 1.6rem;font-size:0.95rem;}
+        }
+
+        /* Footer */
+        footer{
+            background:rgba(0,0,0,0.4);
+            text-align:center;padding:0.7rem;color:#fff;
+            border-top:1px solid rgba(255,255,255,.1);
+            height:50px;
+            display:flex;align-items:center;justify-content:center;
+            font-size:0.78rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="logo.jpeg" alt="Mico Academy Logo">
+            </div>
+            <div>
+                <h1>Mico Integrated Academy</h1>
+                <p>Excellence in Islamic Education</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="programs.html">Programs</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content - EVEN SPACING -->
+    <div class="main-content">
+        <section class="location-hero">
+            <h1>Visit Us</h1>
+            <p>Conveniently located in Utawala, easily accessible from Eastern Bypass.</p>
+        </section>
+
+        <section class="location-content">
+            <div class="info-card location-card">
+                <div class="location-header">
+                    <div class="location-icon">Pin</div>
+                    <div class="location-title">Our Location</div>
+                </div>
+                <div class="address">Mihang'o, Utawala</div>
+                <div class="address">200M off Eastern Bypass</div>
+                <div class="address">Nairobi, Kenya</div>
+            </div>
+
+            <div class="info-card directions-card">
+                <div class="directions-title">How to Find Us</div>
+                <ul class="directions-list">
+                    <li>From Eastern Bypass, take the Utawala exit</li>
+                    <li>Head towards Mihang'o area</li>
+                    <li>Look for Mico Integrated Academy signage 200M from the bypass</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <a href="https://maps.app.goo.gl/Qn5f3m8QtaFhyy187" target="_blank" class="map-placeholder">
+                <img src="loc.png" alt="Mico Academy on Google Maps">
+            </a>
+            <a href="https://maps.app.goo.gl/Qn5f3m8QtaFhyy187" target="_blank" class="btn-map">
+                Open in Google Maps
+            </a>
+        </section>
+
+        <div class="help-text">
+            Need directions? Contact us and we'll be happy to guide you to our campus.
+        </div>
+    </div>
+
+    <!-- Floating Buttons - NO BACKGROUND -->
+    <div class="float-container">
+        <div class="float-btn">
+            <a href="https://wa.me/254728273597?text=Hello!%20I%20have%20a%20question%20about%20Mico%20Integrated%20Academy." target="_blank" rel="noopener noreferrer">
+                <img src="whats.webp" alt="WhatsApp">
+            </a>
+        </div>
+        <div class="float-btn">
+            <a href="https://www.facebook.com/profile.php?id=61581734266331" target="_blank">
+                <img src="fb.png" alt="Facebook">
+            </a>
+        </div>
+        <div class="float-btn">
+            <a href="https://mail.google.com/mail/?view=cm&to=mjshsict@gmail.com&su=Directions%20to%20Mico%20Academy" target="_blank">
+                <img src="gmail.webp" alt="Email">
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Mico Integrated Academy. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

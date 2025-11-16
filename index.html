@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mico Integrated Academy - Excellence in Islamic Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Reset & Base ---------- */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html, body {
+            margin:0; padding:0; height:100vh; overflow:hidden;
+            font-family:'Inter',sans-serif;
+            color:#fff;
+        }
+
+        /* ---------- Background Slider ---------- */
+        body {
+            background:url('bg.jpg') center/cover no-repeat fixed;
+        }
+
+        /* ---------- Header - Light Professional ---------- */
+        header{
+            background:#f8f9fa;
+            color:#00A676;
+            padding:0.6rem 1.2rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            z-index:1000;
+            box-shadow:0 2px 8px rgba(0,0,0,.07);
+            height:58px;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:0.8rem;
+        }
+        .logo-icon img{width:46px;height:46px;border-radius:5px;}
+        .logo h1{font-size:0.98rem;font-weight:700;color:#00A676;}
+        .logo p{font-size:0.68rem;font-weight:300;color:#00897B;}
+        nav ul{display:flex;list-style:none;gap:1.1rem;}
+        nav a{color:#00A676;text-decoration:none;font-weight:500;font-size:0.88rem;transition:opacity .3s;}
+        nav a:hover{opacity:.7;}
+
+        /* ---------- Hero - Fits Screen ---------- */
+        .hero{
+            position:relative;
+            min-height:calc(100vh - 58px - 50px);
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding:1rem;
+            text-align:center;
+            overflow:hidden;
+        }
+        .hero::before{
+            content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,.45);z-index:1;
+        }
+        .hero-content{position:relative;z-index:2;max-width:800px;padding:0 1rem;}
+
+        .hero h2{
+            font-size:2.1rem;font-weight:800;margin-bottom:0.5rem;
+            text-shadow:0 2px 6px rgba(0,0,0,.5);
+            line-height:1.2;
+        }
+        .hero .subtitle{
+            font-size:0.95rem;margin-bottom:1rem;opacity:.95;
+            text-shadow:0 1px 4px rgba(0,0,0,.5);
+        }
+        .btn-group{
+            display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;
+            margin-bottom:1rem;z-index:2;
+        }
+        .btn{
+            padding:0.7rem 1.5rem;border:none;border-radius:8px;font-size:0.9rem;
+            font-weight:600;cursor:pointer;transition:transform .25s,box-shadow .25s;
+            text-decoration:none;display:inline-block;
+        }
+        .btn-primary{background:#fff;color:#00A676;}
+        .btn-secondary{background:transparent;color:#fff;border:2px solid #fff;}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3);}
+
+        .motto-text{
+            font-size:0.82rem;line-height:1.5;max-width:700px;margin:0 auto;
+            text-shadow:0 1px 4px rgba(0,0,0,.5);
+        }
+
+        /* ---------- Animated Images ---------- */
+        .animated-images{
+            position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;
+        }
+        .image-container{
+            position:absolute;top:0;left:0;width:100%;height:100%;
+            opacity:0;transition:opacity 1.2s ease-in-out;
+        }
+        .image-container img{width:100%;height:100%;object-fit:cover;}
+        .image-container.active{opacity:1;}
+
+        /* ---------- Floating Buttons - NO BACKGROUND ---------- */
+        .float-container {
+            position:fixed;
+            bottom:8px;
+            right:8px;
+            display:flex;
+            gap:12px;
+            z-index:1000;
+        }
+        .float-btn{
+            width:48px;height:48px;
+            border-radius:50%;
+            box-shadow:0 3px 8px rgba(0,0,0,.35);
+            display:flex;align-items:center;justify-content:center;
+            background:transparent !important;
+            transition:transform .25s;
+        }
+        .float-btn:hover{transform:scale(1.2);}
+        .float-btn img{width:30px;height:30px;object-fit:contain;}
+
+        @media (max-width:768px){
+            .float-container{flex-direction:column;gap:10px;right:8px;bottom:8px;}
+            .float-btn{width:44px;height:44px;}
+            .float-btn img{width:28px;height:28px;}
+        }
+
+        /* ---------- Footer ---------- */
+        footer{
+            background:rgba(0,0,0,0.4);
+            text-align:center;padding:0.7rem;color:#fff;
+            border-top:1px solid rgba(255,255,255,.1);
+            height:50px;
+            display:flex;align-items:center;justify-content:center;
+            font-size:0.78rem;
+            z-index:10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="logo.jpeg" alt="Mico Academy Logo">
+            </div>
+            <div>
+                <h1>Mico Integrated Academy</h1>
+                <p>Excellence in Islamic Education</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="programs.html">Programs</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="animated-images">
+            <div class="image-container"><img src="logo.png" alt="Hero 0"></div>
+            <div class="image-container"><img src="image1.jpeg" alt="Hero 1"></div>
+            <div class="image-container"><img src="image2.jpeg" alt="Hero 2"></div>
+            <div class="image-container"><img src="image3.jpeg" alt="Hero 3"></div>
+            <div class="image-container"><img src="image4.jpeg" alt="Hero 4"></div>
+        </div>
+
+        <div class="hero-content">
+            <h2>Nurturing Young Minds<br>with Faith & Knowledge</h2>
+            <p class="subtitle">A premier International Integrated School offering quality education in CBC, BRITISH NATIONAL curriculum and ISLAMIC curriculum</p>
+            <div class="btn-group">
+                <a href="programs.html" class="btn btn-primary">Explore Our Programs</a>
+                <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+            </div>
+            <p class="motto-text">
+                <b>MOTTO:</b> Your Child, Your Future, Your Success<br>
+                <b>MISSION:</b> To inculcate virtues, skills & shape the character of our pupils at an early age to make them great leaders.<br>
+                <b>VISION:</b> To be a school that unlocks the potential of every Child, as every child is created differently.
+            </p>
+        </div>
+    </section>
+
+    <!-- Floating Buttons - NO BACKGROUND -->
+    <div class="float-container">
+        <div class="float-btn">
+            <a href="https://wa.me/254728273597?text=Hello!%20I%20have%20a%20question%20about%20Mico%20Integrated%20Academy." target="_blank" rel="noopener noreferrer">
+                <img src="whats.webp" alt="WhatsApp">
+            </a>
+        </div>
+        <div class="float-btn">
+            <a href="https://www.facebook.com/profile.php?id=61581734266331" target="_blank">
+                <img src="fb.png" alt="Facebook">
+            </a>
+        </div>
+        <div class="float-btn">
+            <a href="https://mail.google.com/mail/?view=cm&to=mjshsict@gmail.com&su=Inquiry%20about%20Mico%20Academy" target="_blank">
+                <img src="gmail.webp" alt="Email">
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Mico Integrated Academy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Image Slider
+        window.addEventListener('load', () => {
+            const images = document.querySelectorAll('.image-container');
+            let current = 0;
+            images[0].classList.add('active');
+            setInterval(() => {
+                images[current].classList.remove('active');
+                current = (current + 1) % images.length;
+                images[current].classList.add('active');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

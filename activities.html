@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities - Mico Integrated Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Inter',sans-serif;
+            line-height:1.6;
+            color:#333;
+            background:url('bg.jpg') center/cover no-repeat fixed;
+            min-height:100vh;
+        }
+
+        /* Header */
+        header{
+            background:#00A676;
+            color:#fff;
+            padding:1rem 2rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:1.5rem; /* ← MORE SPACE BETWEEN LOGO & TEXT */
+        }
+        .logo-icon img{width:67px;height:67px;border-radius:5px;}
+        .logo h1{font-size:1.2rem;font-weight:700;}
+        .logo p{font-size:.8rem;font-weight:300;opacity:.9;}
+        nav ul{display:flex;list-style:none;gap:2rem;}
+        nav a{color:#fff;text-decoration:none;font-weight:400;transition:opacity .3s;}
+        nav a:hover{opacity:.8;}
+
+        /* Activities Hero */
+        .activities-hero{
+            position:relative;
+            background:linear-gradient(135deg,#00A676,#00897B);
+            color:#fff;
+            padding:4rem 2rem;
+            text-align:center;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            overflow:hidden;
+        }
+        .activities-hero::before{
+            content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,.4);z-index:1;
+        }
+        .activities-hero-content{position:relative;z-index:2;max-width:800px;}
+        .activities-hero h1{font-size:3rem;font-weight:700;margin-bottom:1rem;}
+        .activities-hero p{font-size:1.2rem;opacity:.9;}
+
+        /* Animated Images */
+        .animated-images{
+            position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;
+        }
+        .image-container{
+            position:absolute;top:0;left:0;width:100%;height:100%;
+            opacity:0;transition:opacity 1s ease-in-out;
+        }
+        .image-container img{width:100%;height:100%;object-fit:cover;}
+        .image-container.active{opacity:1;}
+
+        /* Activities Grid */
+        .activities-grid{
+            padding:4rem 2rem;max-width:1200px;margin:0 auto;
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;
+        }
+        .activity-card{
+            background:#fff;border-radius:12px;padding:2rem;
+            box-shadow:0 4px 20px rgba(0,166,118,.1);transition:transform .3s,box-shadow .3s;
+            border:1px solid #e0f2f1;position:relative;overflow:hidden;
+        }
+        .activity-card::before{
+            content:'';position:absolute;top:0;left:0;width:100%;height:4px;
+            background:currentColor;
+        }
+        .activity-card:hover{
+            transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,166,118,.15);
+        }
+        .coding-card{color:#007BFF;}
+        .skating-card{color:#FF9500;}
+        .religious-card{color:#00A676;}
+
+        .activity-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+        .activity-icon{width:50px;height:50px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;}
+        .coding-card .activity-icon{background:#007BFF;}
+        .skating-card .activity-icon{background:#FF9500;}
+        .religious-card .activity-icon{background:#00A676;}
+        .activity-title{font-size:1.5rem;font-weight:600;}
+        .activity-description{font-size:1rem;margin-bottom:1.5rem;color:#555;}
+        .activity-features{list-style:none;}
+        .activity-features li{padding:.5rem 0;display:flex;gap:.5rem;}
+        .coding-card .activity-features li::before{content:'•';color:#007BFF;font-weight:bold;font-size:1.2rem;}
+        .skating-card .activity-features li::before{content:'•';color:#FF9500;font-weight:bold;font-size:1.2rem;}
+        .religious-card .activity-features li::before{content:'•';color:#00A676;font-weight:bold;font-size:1.2rem;}
+
+        /* Well-Rounded Section */
+        .well-rounded{
+            background:#f0fdfa;padding:4rem 2rem;text-align:center;max-width:800px;
+            margin:0 auto;border-radius:12px;border:1px solid #e0f2f1;
+        }
+        .well-rounded h2{font-size:2rem;font-weight:600;color:#00A676;margin-bottom:1rem;}
+        .well-rounded p{font-size:1.1rem;color:#555;}
+
+        /* Floating Buttons */
+        .float-btn{
+            position:fixed;bottom:20px;width:60px;height:60px;
+            border-radius:50%;text-align:center;box-shadow:2px 2px 3px #999;
+            z-index:100;transition:transform .3s;display:flex;
+            align-items:center;justify-content:center;
+        }
+        .float-btn:hover{transform:scale(1.1);}
+        .float-btn a{display:flex;align-items:center;justify-content:center;width:100%;height:100%;}
+        .whatsapp-float{right:20px;background:#25D366;}
+        .facebook-float{right:90px;background:#1877F2;}
+        .gmail-float{right:160px;background:#DB4437;}
+        @media (max-width:768px){
+            .float-btn{width:50px;height:50px;}
+            .facebook-float{right:80px;}
+            .gmail-float{right:150px;}
+        }
+
+        /* Footer */
+        footer{
+            background:#f8f9fa;text-align:center;padding:2rem;color:#666;
+            position:relative;z-index:10;
+        }
+
+        /* Responsive */
+        @media (max-width:768px){
+            header{flex-direction:column;gap:1rem;padding:1rem;}
+            nav ul{gap:1rem;}
+            .activities-hero{padding:2rem 1rem;}
+            .activities-hero h1{font-size:2.5rem;}
+            .activities-hero p{font-size:1rem;}
+            .activities-grid{padding:2rem 1rem;grid-template-columns:1fr;}
+            .well-rounded{padding:2rem 1rem;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="logo.jpeg" alt="Mico Academy Logo">
+            </div>
+            <div>
+                <h1>Mico Integrated Academy</h1>
+                <p>Excellence in Islamic Education</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="programs.html">Programs</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Activities Hero -->
+    <section class="activities-hero">
+        <div class="animated-images">
+            <div class="image-container"><img src="image5.jpeg" alt="Activity 1"></div>
+            <div class="image-container"><img src="image6.jpeg" alt="Activity 2"></div>
+            <div class="image-container"><img src="image7.jpeg" alt="Activity 3"></div>
+            <div class="image-container"><img src="image8.jpeg" alt="Activity 4"></div>
+            <div class="image-container"><img src="image9.jpeg" alt="Activity 5"></div>
+            <div class="image-container"><img src="image10.jpeg" alt="Activity 6"></div>
+        </div>
+        <div class="activities-hero-content">
+            <h1>Extra-Curricular Activities</h1>
+            <p>Beyond academics, we offer diverse activities that develop skills, build character, and nurture talents.</p>
+        </div>
+    </section>
+
+    <!-- Activities Grid -->
+    <section class="activities-grid">
+        <div class="activity-card coding-card">
+            <div class="activity-header">
+                <div class="activity-icon">&lt;/&gt;</div>
+                <div class="activity-title">Coding & Robotics</div>
+            </div>
+            <p class="activity-description">Introducing students to technology, programming fundamentals, and robotics through hands-on projects and STEM activities.</p>
+            <ul class="activity-features">
+                <li>Basic programming</li>
+                <li>Robotics workshops</li>
+                <li>Problem-solving</li>
+                <li>Innovation labs</li>
+            </ul>
+        </div>
+
+        <div class="activity-card skating-card">
+            <div class="activity-header">
+                <div class="activity-icon">Skates</div>
+                <div class="activity-title">Skating</div>
+            </div>
+            <p class="activity-description">Physical fitness and coordination development through skating activities, promoting balance, confidence, and healthy living.</p>
+            <ul class="activity-features">
+                <li>Skating lessons</li>
+                <li>Physical fitness</li>
+                <li>Team coordination</li>
+                <li>Sports safety</li>
+            </ul>
+        </div>
+
+        <div class="activity-card religious-card">
+            <div class="activity-header">
+                <div class="activity-icon">Moon</div>
+                <div class="activity-title">Religious Studies</div>
+            </div>
+            <p class="activity-description">Comprehensive Islamic education including Quran memorization, Arabic language, Islamic history, and character development.</p>
+            <ul class="activity-features">
+                <li>Quran recitation</li>
+                <li>Arabic language</li>
+                <li>Islamic ethics</li>
+                <li>Hadith studies</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Well-Rounded -->
+    <section class="well-rounded">
+        <h2>A Well-Rounded Education</h2>
+        <p>Our extra-curricular activities are designed to complement academic learning, helping students discover their passions, develop new skills, and grow into well-rounded individuals who excel both in and out of the classroom.</p>
+    </section>
+
+    <!-- Floating Buttons (Always Visible) -->
+   <div class="whatsapp-float">
+       <a href="https://wa.me/254728273597?text=Hello!%20I%20have%20a%20question%20about%20Mico%20Integrated%20Academy." target="_blank" rel="noopener noreferrer">
+    <img src="whats.webp" alt="WhatsApp" style="width: 35px; height: 35px;">
+</a>
+    </div>
+    <div class="facebook-float">
+        <a href="https://www.facebook.com/profile.php?id=61581734266331" target="_blank">
+            <img src="fb.png" alt="Facebook" style="width:35px;height:35px;">
+        </a>
+    </div>
+    <div class="gmail-float">
+        <a href="https://mail.google.com/mail/?view=cm&to=mjshsict@gmail.com&su=Inquiry%20about%20Activities" target="_blank">
+            <img src="gmail.webp" alt="Email" style="width:35px;height:35px;">
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo-icon" style="margin-bottom:1rem;">
+            <img src="logo.jpeg" alt="Logo" style="width:80px;height:80px;border-radius:5px;">
+        </div>
+        <p>&copy; 2025 Mico Integrated Academy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Image Slider
+        window.addEventListener('load', () => {
+            const images = document.querySelectorAll('.image-container');
+            let current = 0;
+            images[0].classList.add('active');
+            setInterval(() => {
+                images[current].classList.remove('active');
+                current = (current + 1) % images.length;
+                images[current].classList.add('active');
+            }, 5000);
+        });
+
+        // Card Animation on Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.activity-card, .well-rounded').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
